@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://privateme.work/sitemap.xml
