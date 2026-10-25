@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#14503f">
+<title>Private Me · Verificatore (demo)</title>
+<style>
+:root{--g:#14503f;--g2:#1f7a5e;--mint:#e4f2ec;--ink:#14231f;--mut:#667873;--bg:#f5f8f6;--ln:#e2ebe7;--rd:#c0392b;--rdT:#fbe9e6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input{font:inherit;color:inherit}:focus-visible{outline:3px solid var(--g2);outline-offset:2px}
+.w{max-width:620px;margin:0 auto;padding:28px 20px 60px}
+.br{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px}.br svg{width:26px;height:26px;color:var(--g2)}
+h1{font-size:28px;margin:22px 0 4px;letter-spacing:-.02em}.sub{color:var(--mut);margin:0 0 18px}
+.card{background:#fff;border:1px solid var(--ln);border-radius:20px;padding:20px;margin:12px 0}
+label{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
+input[type=text]{width:100%;border:1.5px solid var(--ln);border-radius:12px;padding:12px 13px}
+.ck{display:flex;gap:10px;align-items:center;font-weight:500;margin:8px 0}.ck input{width:20px;height:20px;accent-color:var(--g)}
+.btn{border:0;border-radius:14px;background:var(--g);color:#fff;font-weight:700;padding:14px 22px;margin-top:18px;cursor:pointer}.btn.o{background:none;border:1.5px solid var(--ln);color:var(--ink)}
+.c{text-align:center}.qr{background:#fff;border:1px solid var(--ln);border-radius:18px;padding:16px;display:inline-block;min-width:232px;min-height:232px}.qr img,.qr canvas{display:block}
+.big{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-size:38px;background:var(--mint);color:var(--g)}.big.no{background:var(--rdT);color:var(--rd)}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--ln)}.row:first-of-type{border-top:0}.row span{color:var(--mut)}
+.mut{color:var(--mut);font-size:13.5px}.msg{color:var(--rd);font-weight:600;min-height:1.3em}
+.pill{display:inline-block;background:var(--mint);color:var(--g);border-radius:99px;padding:4px 12px;font-size:13px;font-weight:700}
+</style></head><body><div class="w">
+<div class="br"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Private Me · Verificatore</div>
+<main id="v"></main></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const API='https://xdzwnwkwdzadkwnvzxkl.supabase.co/functions/v1/wallet-api',KEY='sb_publishable_k9td9Qw0_Tc1wNeLc197XA_DjlFOAT3'
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';')
+const api=async(azione,b={})=>{try{const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json',apikey:KEY},body:JSON.stringify({azione,...b})});return await r.json()}catch{return{errore:'Servizio non raggiungibile'}}}
+const ET={age_over_18:'Maggiore di 18 anni',given_name:'Nome',family_name:'Cognome',birthdate:'Data di nascita',comune:'Comune di residenza'}
+const fmt=(k,v)=>k=='age_over_18'?(v?'Sì':'No'):k=='birthdate'?new Date(v+'T12:00').toLocaleDateString('it-IT'):v
+let poll=null
+const form=()=>{clearInterval(poll);$('#v').innerHTML=`<h1>Verifica un dato</h1><p class="sub">Chiedi solo ciò che ti serve. La persona decide dal suo telefono se condividerlo.</p><div class="card"><label for="ri">Chi sei</label><input type="text" id="ri" maxlength="60" value="Comune di Milano"><label for="sc">Perché lo chiedi</label><input type="text" id="sc" maxlength="120" value="Accesso ai servizi anagrafici"><label>Cosa vuoi sapere</label>${Object.keys(ET).map(k=>`<label class="ck"><input type="checkbox" value="${k}" ${k=='age_over_18'?'checked':''}>${ET[k]}</label>`).join('')}<p class="msg" id="em"></p><button class="btn" id="go">Genera il QR code</button></div><p class="mut">Versione dimostrativa: l’emittente è di prova e i dati sono inventati.</p>`
+$('#go').onclick=async()=>{const at=[...document.querySelectorAll('.ck input:checked')].map(i=>i.value);if(!at.length)return $('#em').textContent='Scegli almeno un dato';$('#go').disabled=true
+const r=await api('crea_richiesta',{richiedente:$('#ri').value,scopo:$('#sc').value,attributi:at});if(r.errore){$('#go').disabled=false;return $('#em').textContent=r.errore};attesa(r.id)}}
+const attesa=id=>{const url=new URL('./?r='+id,location.href).href
+$('#v').innerHTML=`<h1>Inquadra con Private Me</h1><p class="sub">Apri il wallet sul telefono e scansiona il codice.</p><div class="card c"><div class="qr" id="qr"></div><p class="mut" style="margin:14px 0 0">In attesa della risposta… <span class="pill" id="st">attesa</span></p></div><button class="btn o" id="an">Annulla</button>`
+try{new QRCode($('#qr'),{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch{$('#qr').textContent=url}
+$('#an').onclick=form
+clearInterval(poll);poll=setInterval(async()=>{const s=await api('stato',{id});if(s.stato&&s.stato!='attesa'){clearInterval(poll);esito(s)}},1500)}
+const esito=s=>{const ok=s.stato=='ok'
+$('#v').innerHTML=`<div class="card c"><div class="big ${ok?'':'no'}">${ok?'✓':'✕'}</div><h1 style="margin:0">${ok?'Verificato':s.stato=='scaduta'?'Richiesta scaduta':s.stato=='no'?'Verifica non riuscita':'Rifiutata'}</h1><p class="sub">${ok?'Firma dell’emittente e prova di possesso valide.':esc(s.esito?.motivo||'Nessun dato ricevuto.')}</p></div>${ok?`<div class="card">${s.attributi.map(k=>`<div class="row"><span>${esc(ET[k]||k)}</span><b>${esc(fmt(k,s.esito.claims[k]))}</b></div>`).join('')}<p class="mut" style="margin:12px 0 0">Nessun documento ricevuto: solo i dati richiesti, firmati.</p></div>`:''}<button class="btn" id="n">Nuova verifica</button>`;$('#n').onclick=form}
+form()
+</script></body></html>

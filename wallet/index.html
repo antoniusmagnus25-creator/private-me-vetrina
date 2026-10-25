@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex"><meta name="theme-color" content="#14503f">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<title>Private Me · Wallet</title>
+<style>
+:root{--g:#14503f;--g2:#1f7a5e;--mint:#e4f2ec;--ink:#14231f;--mut:#667873;--bg:#f5f8f6;--card:#fff;--ln:#e2ebe7;--rd:#c0392b;--rdT:#fbe9e6;--wa:#b8741a;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-top:env(safe-area-inset-top,0)}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--g2);outline-offset:2px}
+.app{max-width:460px;margin:0 auto;padding:0 18px 110px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;align-items:center;gap:10px;padding:14px 0 10px}
+header .br{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;letter-spacing:-.01em}header .br svg{width:26px;height:26px;color:var(--g2)}
+header .pl{margin-left:auto;width:42px;height:42px;border:0;border-radius:12px;background:var(--g);color:#fff;font-size:24px;line-height:1}
+h1{font-size:26px;margin:6px 0 2px;letter-spacing:-.02em}h2{font-size:20px;margin:22px 0 2px;letter-spacing:-.01em}h3{font-size:15px;margin:20px 0 8px}
+.sub{color:var(--mut);margin:0 0 14px;font-size:14px}
+.ban{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:14px 16px;margin:6px 0}
+.ban svg{width:24px;height:24px;flex:none;color:var(--g2);margin-top:2px}.ban b{display:block}.ban p{margin:2px 0 0;color:var(--mut);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:20px;padding:16px;margin:10px 0}
+.cr{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--ln);border-radius:20px;padding:16px;margin:10px 0}
+.cr .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.ic{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--mint);color:var(--g);font-weight:800;font-size:13px}
+.vf{font-size:12.5px;color:var(--g2);font-weight:700}
+small.k{display:block;font-size:11px;letter-spacing:.12em;color:var(--mut);font-weight:700;text-transform:uppercase}
+.cr b{display:block;font-size:17px;margin:2px 0}.cr span.is{display:block;color:var(--mut);font-size:13px}.cr .lk{display:block;margin-top:12px;color:var(--g2);font-weight:700;font-size:13.5px}
+.btn{display:block;width:100%;border:0;border-radius:14px;background:var(--g);color:#fff;font-weight:700;padding:14px 18px;margin-top:12px;text-align:center}
+.btn.t{background:var(--mint);color:var(--g)}.btn.r{background:var(--rdT);color:var(--rd)}.btn.o{background:none;border:1.5px solid var(--ln);color:var(--ink)}
+label{display:block;font-weight:600;margin:12px 0 6px;font-size:14px}
+input{width:100%;border:1.5px solid var(--ln);border-radius:12px;padding:12px 13px;background:#fff}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--ln)}.row:first-child{border-top:0}.row span{color:var(--mut)}.row b{text-align:right;word-break:break-word}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--ln);padding:6px 6px calc(8px + env(safe-area-inset-bottom,0));z-index:6}
+nav div{max-width:460px;margin:0 auto;display:flex}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:7px 0 4px;font-size:11.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav button svg{width:24px;height:24px}nav button.on{color:var(--g)}
+.stats{display:flex;gap:12px}.stats .card{flex:1;margin:0}.stats b{font-size:28px;display:block;letter-spacing:-.02em}.stats span{color:var(--mut);font-size:13px}
+.lg{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--ln)}.lg:first-child{border-top:0}.lg .d{width:10px;height:10px;border-radius:50%;background:var(--g2);margin-top:6px;flex:none}.lg .d.no{background:var(--rd)}.lg small{color:var(--mut)}
+.scan{position:relative;background:#0d1f19;border-radius:22px;aspect-ratio:1;overflow:hidden;display:grid;place-items:center;color:#cfe3da;text-align:center;padding:24px}
+.scan video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scan i{position:absolute;inset:14% 14%;border:3px solid rgba(255,255,255,.85);border-radius:20px;clip-path:polygon(0 0,28% 0,28% 3px,3px 3px,3px 28%,0 28%,0 0,100% 0,100% 28%,calc(100% - 3px) 28%,calc(100% - 3px) 3px,72% 3px,72% 0,100% 0,100% 100%,72% 100%,72% calc(100% - 3px),calc(100% - 3px) calc(100% - 3px),calc(100% - 3px) 72%,100% 72%,100% 100%,0 100%,0 72%,3px 72%,3px calc(100% - 3px),28% calc(100% - 3px),28% 100%,0 100%)}
+.scan p{position:relative;margin:0;font-size:14px;max-width:240px}
+.ok{background:var(--mint);color:var(--g)}.res{text-align:center;padding:30px 10px}.res .big{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;font-size:36px;background:var(--mint);color:var(--g)}.res .big.no{background:var(--rdT);color:var(--rd)}
+.msg{color:var(--rd);font-weight:600;min-height:1.3em}
+#tt{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0));transform:translateX(-50%);background:var(--g);color:#fff;padding:11px 18px;border-radius:14px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center;z-index:9}#tt.on{opacity:1}
+.pv{font-size:12px;color:var(--mut);text-align:center;margin-top:26px}
+</style></head><body>
+<div class="app"><header id="hd"></header><main id="v"></main></div>
+<nav aria-label="Menu principale"><div id="nv"></div></nav><div id="tt" role="status"></div>
+<script type="module">
+// Private Me · nucleo SD-JWT VC (ES256). Funziona nel browser, in Deno e in Node.
+const enc = new TextEncoder(), dec = new TextDecoder()
+export const b64u = (buf) => { const b = buf instanceof Uint8Array ? buf : new Uint8Array(buf); let s = ''; b.forEach(c => s += String.fromCharCode(c)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '') }
+export const unb64u = (s) => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const r = atob(s), u = new Uint8Array(r.length); for (let i = 0; i < r.length; i++) u[i] = r.charCodeAt(i); return u }
+const jsonB64 = (o) => b64u(enc.encode(JSON.stringify(o)))
+const parseB64 = (s) => JSON.parse(dec.decode(unb64u(s)))
+const sha256b64u = async (str) => b64u(await crypto.subtle.digest('SHA-256', enc.encode(str)))
+const ALG = { name: 'ECDSA', namedCurve: 'P-256' }
+export const importPriv = (jwk) => crypto.subtle.importKey('jwk', jwk, ALG, false, ['sign'])
+export const importPub = (jwk) => crypto.subtle.importKey('jwk', { kty: jwk.kty, crv: jwk.crv, x: jwk.x, y: jwk.y }, ALG, false, ['verify'])
+const makeJws = async (header, payload, key) => {
+  const si = jsonB64(header) + '.' + jsonB64(payload)
+  return si + '.' + b64u(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, enc.encode(si)))
+}
+const checkJws = async (pubJwk, h, p, s) =>
+  crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, await importPub(pubJwk), unb64u(s), enc.encode(h + '.' + p))
+
+// Emittente: firma una credenziale in cui ogni dato è un "disclosure" separato
+export async function issueSdJwt({ claims, holderJwk, issuerKey, iss, vct, ttlDays = 365 }) {
+  const disclosures = [], digests = []
+  for (const [k, v] of Object.entries(claims)) {
+    const salt = b64u(crypto.getRandomValues(new Uint8Array(16)))
+    const d = b64u(enc.encode(JSON.stringify([salt, k, v])))
+    disclosures.push(d); digests.push(await sha256b64u(d))
+  }
+  digests.sort(() => crypto.getRandomValues(new Uint8Array(1))[0] - 128)
+  const now = Math.floor(Date.now() / 1000)
+  const jwt = await makeJws({ alg: 'ES256', typ: 'vc+sd-jwt' },
+    { iss, iat: now, exp: now + ttlDays * 86400, vct, cnf: { jwk: holderJwk }, _sd: digests, _sd_alg: 'sha-256' }, issuerKey)
+  return jwt + '~' + disclosures.join('~') + '~'
+}
+
+// Legge una credenziale (per mostrarla nel wallet)
+export function decodeSdJwt(sdjwt) {
+  const parts = sdjwt.split('~'), payload = parseB64(parts[0].split('.')[1]), claims = {}
+  for (const d of parts.slice(1).filter(Boolean)) { const [, k, v] = parseB64(d); claims[k] = v }
+  return { payload, claims }
+}
+
+// Wallet: mostra solo i dati scelti e dimostra di possedere la chiave
+export async function present({ sdjwt, reveal, holderKey, aud, nonce }) {
+  const parts = sdjwt.split('~'), jwt = parts[0]
+  const chosen = parts.slice(1).filter(Boolean).filter(d => reveal.includes(parseB64(d)[1]))
+  const base = jwt + '~' + chosen.map(d => d + '~').join('')
+  const kb = await makeJws({ alg: 'ES256', typ: 'kb+jwt' },
+    { iat: Math.floor(Date.now() / 1000), aud, nonce, sd_hash: await sha256b64u(base) }, holderKey)
+  return base + kb
+}
+
+// Verificatore: controlla emittente, dati, possesso della chiave, destinatario e nonce
+export async function verifyPresentation({ presentation, trusted, aud, nonce, maxAgeSec = 300 }) {
+  const parts = String(presentation).split('~')
+  if (parts.length < 2) throw new Error('formato')
+  const kb = parts.pop(), base = parts.join('~') + '~', jwt = parts[0]
+  const [h, p, s] = jwt.split('.')
+  if (!h || !p || !s) throw new Error('formato')
+  const header = parseB64(h), payload = parseB64(p)
+  if (header.alg !== 'ES256') throw new Error('algoritmo')
+  const issuerJwk = trusted[payload.iss]
+  if (!issuerJwk) throw new Error('emittente non fidato')
+  if (!(await checkJws(issuerJwk, h, p, s))) throw new Error('firma emittente')
+  const now = Math.floor(Date.now() / 1000)
+  if (payload.exp && payload.exp < now) throw new Error('credenziale scaduta')
+  if (payload._sd_alg !== 'sha-256' || !Array.isArray(payload._sd)) throw new Error('formato')
+  const claims = {}
+  for (const d of parts.slice(1).filter(Boolean)) {
+    if (!payload._sd.includes(await sha256b64u(d))) throw new Error('dato non firmato')
+    const [, k, v] = parseB64(d)
+    if (k in claims || k.startsWith('_')) throw new Error('dato duplicato')
+    claims[k] = v
+  }
+  const [kh, kp, ks] = kb.split('.')
+  if (!kh || !kp || !ks) throw new Error('prova di possesso mancante')
+  const kbh = parseB64(kh), kbp = parseB64(kp)
+  if (kbh.alg !== 'ES256' || kbh.typ !== 'kb+jwt') throw new Error('prova di possesso')
+  if (!payload.cnf || !payload.cnf.jwk) throw new Error('chiave del titolare mancante')
+  if (!(await checkJws(payload.cnf.jwk, kh, kp, ks))) throw new Error('firma del titolare')
+  if (kbp.aud !== aud || kbp.nonce !== nonce) throw new Error('richiesta diversa')
+  if (kbp.sd_hash !== await sha256b64u(base)) throw new Error('dati alterati')
+  if (Math.abs(now - kbp.iat) > maxAgeSec) throw new Error('prova troppo vecchia')
+  return { iss: payload.iss, vct: payload.vct, claims }
+}
+
+const $ = s => document.querySelector(s)
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + ';')
+const API = 'https://xdzwnwkwdzadkwnvzxkl.supabase.co/functions/v1/wallet-api', KEY = 'sb_publishable_k9td9Qw0_Tc1wNeLc197XA_DjlFOAT3'
+const api = async (azione, body = {}) => { try { const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json', apikey: KEY }, body: JSON.stringify({ azione, ...body }) }); return await r.json() } catch { return { errore: 'Servizio non raggiungibile. Riprova.' } } }
+const LS = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } }
+const SV = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { } }
+const toast = m => { const t = $('#tt'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2800) }
+const ET = { age_over_18: 'Maggiore di 18 anni', given_name: 'Nome', family_name: 'Cognome', birthdate: 'Data di nascita', comune: 'Comune di residenza' }
+const fmt = (k, v) => k == 'age_over_18' ? (v ? 'Sì' : 'No') : k == 'birthdate' ? new Date(v + 'T12:00').toLocaleDateString('it-IT') : v
+const dt = t => new Date(t).toLocaleString('it-IT', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+// Chiave del titolare: creata nel dispositivo, non esportabile
+const idb = () => new Promise((ok, ko) => { const r = indexedDB.open('pm-wallet', 1); r.onupgradeneeded = () => r.result.createObjectStore('k'); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error) })
+const kget = async k => { const d = await idb(); return new Promise((ok, ko) => { const q = d.transaction('k').objectStore('k').get(k); q.onsuccess = () => ok(q.result); q.onerror = () => ko(q.error) }) }
+const kput = async (k, v) => { const d = await idb(); return new Promise((ok, ko) => { const q = d.transaction('k', 'readwrite').objectStore('k').put(v, k); q.onsuccess = () => ok(); q.onerror = () => ko(q.error) }) }
+const holder = async () => { let h = await kget('holder'); if (!h) { const kp = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign', 'verify']); const p = await crypto.subtle.exportKey('jwk', kp.publicKey); h = { priv: kp.privateKey, pub: { kty: p.kty, crv: p.crv, x: p.x, y: p.y } }; await kput('holder', h) } return h }
+
+const creds = () => LS('pm-cred', []), logs = () => LS('pm-log', [])
+let tab = 'home', sub = null, stream = null, scanTimer = null
+const stopCam = () => { clearInterval(scanTimer); if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null } }
+const IC = {
+  sh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></svg>',
+  wal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14.5h2"/></svg>',
+  scan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 12h8"/></svg>',
+  act: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h9"/></svg>'
+}
+const TABS = [['home', 'Panoramica', IC.home], ['cred', 'Credenziali', IC.wal], ['scan', 'Scansione', IC.scan], ['att', 'Attività', IC.act]]
+
+const render = () => {
+  stopCam()
+  $('#hd').innerHTML = `<div class="br">${IC.sh}Private Me</div><button class="pl" data-a="add" aria-label="Aggiungi una credenziale">+</button>`
+  $('#nv').innerHTML = TABS.map(t => `<button class="${t[0] == tab && !sub ? 'on' : ''}" data-t="${t[0]}">${t[2]}${t[1]}</button>`).join('')
+  const v = sub ? VS[sub.view]() : TV[tab]()
+  Promise.resolve(v).then(h => { if (typeof h == 'string') $('#v').innerHTML = h; AF[sub ? sub.view : tab]?.() })
+}
+const credCard = c => `<button class="cr" data-d="${c.id}"><div class="top"><span class="ic">ID</span><span class="vf">✓ Verificata</span></div><small class="k">Identità</small><b>${esc(c.titolo)}</b><span class="is">Emessa da ${esc(c.emittente)}</span><span class="lk">Visualizza dettagli ›</span></button>`
+
+const TV = {
+  home: () => { const c = creds(); return `<div class="ban">${IC.sh}<div><b>Il tuo wallet è protetto</b><p>Le credenziali restano solo su questo dispositivo e si condividono solo con il tuo consenso.</p></div></div><h2>Le tue credenziali</h2><p class="sub">${c.length} ${c.length == 1 ? 'credenziale verificata' : 'credenziali verificate'}</p>${c.map(credCard).join('') || '<div class="card"><p class="sub" style="margin:0">Non hai ancora credenziali. Aggiungi una credenziale di prova per provare il wallet.</p><button class="btn" data-a="add">Aggiungi una credenziale di prova</button></div>'}<p class="pv">Versione dimostrativa: non usarla con documenti veri.</p>` },
+  cred: () => { const c = creds(); return `<h1>Credenziali</h1><p class="sub">Ogni credenziale è firmata da chi l’ha emessa</p>${c.map(credCard).join('') || '<p class="sub">Nessuna credenziale.</p>'}<button class="btn t" data-a="add">+ Aggiungi una credenziale di prova</button>` },
+  scan: () => `<h1>Scansione</h1><p class="sub">Inquadra il QR code di chi chiede la verifica</p><div class="scan"><video id="cam" playsinline muted hidden></video><i></i><p id="sm">Avvio della fotocamera…</p></div><label for="cd">Oppure incolla il link o il codice</label><input id="cd" placeholder="https://… oppure codice" autocomplete="off"><button class="btn t" id="go">Apri richiesta</button><button class="btn o" id="demo">Simula scansione demo</button>`,
+  att: () => { const L = logs(), m = Date.now() - 30 * 86400000, rec = L.filter(x => x.t > m && x.ok); return `<h1>Attività</h1><p class="sub">Il registro resta cifrato solo su questo dispositivo? No: è salvato in questo browser</p>`.replace(/<p class="sub">Il registro[^]*?<\/p>/, '<p class="sub">Il registro di ciò che hai condiviso, salvato solo su questo dispositivo</p>') + `<div class="stats"><div class="card"><b>${rec.length}</b><span>Condivisioni negli ultimi 30 giorni</span></div><div class="card"><b>${rec.reduce((n, x) => n + x.attributi.length, 0)}</b><span>Dati condivisi</span></div></div><h2>Ultime condivisioni</h2><div class="card">${L.map(x => `<div class="lg"><span class="d ${x.ok ? '' : 'no'}"></span><div><b>${esc(x.chi)}</b><br><small>${x.ok ? esc(x.scopo || 'Verifica completata') : 'Verifica non riuscita'} · ${dt(x.t)}</small><br><small>${esc(x.attributi.map(a => ET[a]).join(', '))}</small></div></div>`).join('') || '<p class="sub" style="margin:0">Nessuna condivisione finora.</p>'}</div>` }
+}
+const VS = {
+  add: () => `<button class="btn o" data-a="back" style="margin-top:0;width:auto;padding:9px 16px">← Indietro</button><h1 style="margin-top:14px">Credenziale di prova</h1><p class="sub">In questa demo fai da emittente. Nella versione reale i dati arrivano da un ente (Comune, banca, università) e non li scrivi tu.</p><div class="card"><label for="gn">Nome</label><input id="gn" maxlength="60" autocomplete="given-name"><label for="fn">Cognome</label><input id="fn" maxlength="60" autocomplete="family-name"><label for="bd">Data di nascita</label><input id="bd" type="date"><label for="cm">Comune di residenza (facoltativo)</label><input id="cm" maxlength="60"><p class="msg" id="em"></p><button class="btn" id="ob">Ottieni la credenziale</button></div>`,
+  detail: () => { const c = creds().find(x => x.id == sub.id); if (!c) { sub = null; return TV[tab]() } return `<button class="btn o" data-a="back" style="margin-top:0;width:auto;padding:9px 16px">← Indietro</button><h1 style="margin-top:14px">${esc(c.titolo)}</h1><p class="sub">✓ Firma dell’emittente valida</p><div class="card">${Object.entries(c.claims).map(([k, v]) => `<div class="row"><span>${esc(ET[k] || k)}</span><b>${esc(fmt(k, v))}</b></div>`).join('')}</div><div class="card"><div class="row"><span>Emittente</span><b>${esc(c.emittente)}</b></div><div class="row"><span>Emessa il</span><b>${dt(c.emessa)}</b></div><div class="row"><span>Valida fino al</span><b>${dt(c.scade)}</b></div></div><button class="btn r" data-del="${c.id}">Elimina dal wallet</button>` },
+  consent: async () => {
+    if (!sub.r) { const r = await api('leggi_richiesta', { id: sub.id }); if (r.errore) { sub = { view: 'msg', titolo: 'Richiesta non valida', testo: r.errore }; return VS.msg() } sub.r = r; sub.cred = creds().find(c => r.attributi.every(a => a in c.claims)) || null }
+    const { r, cred } = sub, altri = cred ? Object.keys(cred.claims).filter(k => !r.attributi.includes(k)).map(k => ET[k] || k) : []
+    return `<h1>Richiesta di verifica</h1><div class="card"><small class="k">Chi chiede</small><h2 style="margin:4px 0 2px">${esc(r.richiedente)}</h2><p class="sub" style="margin:0">${esc(r.scopo || '')}</p></div><h3>Vuole sapere solo questo</h3><div class="card">${r.attributi.map(k => `<div class="row"><span>${esc(ET[k] || k)}</span><b>${cred ? esc(fmt(k, cred.claims[k])) : '—'}</b></div>`).join('')}</div>${cred ? `<div class="ban">${IC.sh}<div><b>Nient’altro viene condiviso</b><p>${altri.length ? esc(altri.join(', ')) + ' restano privati.' : ''} Chi chiede riceve solo una risposta firmata, mai il documento.</p></div></div><button class="btn" id="sh">Condividi</button>` : '<div class="ban"><div><b>Non hai una credenziale adatta</b><p>Aggiungi prima una credenziale con questi dati.</p></div></div>'}<button class="btn o" data-a="back">${cred ? 'Rifiuta' : 'Indietro'}</button>`
+  },
+  msg: () => `<div class="res"><div class="big no">!</div><h1>${esc(sub.titolo)}</h1><p class="sub">${esc(sub.testo)}</p></div><button class="btn" data-a="back">Torna al wallet</button>`,
+  done: () => `<div class="res"><div class="big ${sub.ok ? '' : 'no'}">${sub.ok ? '✓' : '!'}</div><h1>${sub.ok ? 'Condivisione completata' : 'Verifica non riuscita'}</h1><p class="sub">${sub.ok ? esc(sub.chi) + ' ha ricevuto solo: ' + esc(sub.attributi.map(a => ET[a]).join(', ')) + '.' : 'Non è stato condiviso nulla. Riprova con una nuova richiesta.'}</p></div><button class="btn" data-a="back">Torna al wallet</button>`
+}
+const AF = {
+  add: () => { $('#ob').onclick = async () => {
+    const p = { given_name: $('#gn').value, family_name: $('#fn').value, birthdate: $('#bd').value, comune: $('#cm').value }
+    if (!p.given_name.trim() || !p.family_name.trim() || !p.birthdate) return $('#em').textContent = 'Compila nome, cognome e data di nascita'
+    $('#ob').disabled = true; $('#em').textContent = ''
+    try {
+      const h = await holder(), r = await api('emetti', { holder_jwk: h.pub, profilo: p })
+      if (r.errore) { $('#ob').disabled = false; return $('#em').textContent = r.errore }
+      const d = decodeSdJwt(r.sdjwt), c = creds(); c.unshift({ id: crypto.randomUUID(), sdjwt: r.sdjwt, titolo: 'Identità digitale (demo)', emittente: 'Emittente di prova Private Me', claims: d.claims, emessa: d.payload.iat * 1000, scade: d.payload.exp * 1000 })
+      SV('pm-cred', c); sub = null; tab = 'home'; toast('Credenziale aggiunta'); render()
+    } catch (e) { $('#ob').disabled = false; $('#em').textContent = 'Non riesco a creare la chiave sicura su questo browser' } } },
+  scan: async () => {
+    const open = v => { const m = String(v).match(/[?&]r=([0-9a-f-]{36})/i) || String(v).trim().match(/^([0-9a-f-]{36})$/i); if (!m) return toast('Codice non riconosciuto'); openRequest(m[1]) }
+    $('#go').onclick = () => open($('#cd').value)
+    $('#demo').onclick = async () => { const q = await api('crea_richiesta', { richiedente: 'Comune di Milano', scopo: 'Accesso ai servizi anagrafici', attributi: ['age_over_18'] }); q.errore ? toast(q.errore) : openRequest(q.id) }
+    const sm = $('#sm')
+    if (!('BarcodeDetector' in window) || !navigator.mediaDevices) { sm.textContent = 'Questo browser non legge i QR da qui: usa la fotocamera del telefono, oppure incolla il link qui sotto.'; return }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      const cam = $('#cam'); cam.srcObject = stream; cam.hidden = false; await cam.play(); sm.textContent = 'Inquadra il QR code'
+      const det = new BarcodeDetector({ formats: ['qr_code'] })
+      scanTimer = setInterval(async () => { try { const f = await det.detect(cam); if (f.length) { const v = f[0].rawValue; if (/[?&]r=|^[0-9a-f-]{36}$/i.test(v)) { stopCam(); open(v) } } } catch { } }, 350)
+    } catch { sm.textContent = 'Non posso usare la fotocamera. Controlla i permessi del browser, oppure incolla il link qui sotto.' }
+  },
+  consent: () => { const b = $('#sh'); if (b) b.onclick = async () => {
+    b.disabled = true; b.textContent = 'Condivisione…'
+    const { r, cred } = sub, entry = { t: Date.now(), chi: r.richiedente, scopo: r.scopo, attributi: r.attributi }
+    try {
+      const h = await holder(), pres = await present({ sdjwt: cred.sdjwt, reveal: r.attributi, holderKey: h.priv, aud: r.aud, nonce: r.nonce }), res = await api('rispondi', { id: sub.id, presentazione: pres })
+      entry.ok = res.esito == 'ok'
+    } catch { entry.ok = false }
+    SV('pm-log', [entry, ...logs()].slice(0, 100)); sub = { view: 'done', ok: entry.ok, chi: r.richiedente, attributi: r.attributi }; render() } }
+}
+const openRequest = id => { sub = { view: 'consent', id }; render() }
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-t]'), a = e.target.closest('[data-a]'), d = e.target.closest('[data-d]'), x = e.target.closest('[data-del]')
+  if (t) { tab = t.dataset.t; sub = null; render(); scrollTo(0, 0) }
+  else if (a) { const k = a.dataset.a; sub = k == 'add' ? { view: 'add' } : null; render(); scrollTo(0, 0) }
+  else if (d) { sub = { view: 'detail', id: d.dataset.d }; render(); scrollTo(0, 0) }
+  else if (x) { if (confirm('Eliminare questa credenziale dal wallet?')) { SV('pm-cred', creds().filter(c => c.id != x.dataset.del)); sub = null; toast('Credenziale eliminata'); render() } }
+})
+const q0 = new URLSearchParams(location.search).get('r')
+if (q0 && /^[0-9a-f-]{36}$/i.test(q0)) { history.replaceState(null, '', location.pathname); tab = 'scan'; openRequest(q0) } else render()
+</script></body></html>
